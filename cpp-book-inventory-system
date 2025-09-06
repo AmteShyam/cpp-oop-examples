@@ -1,0 +1,100 @@
+#include <iostream>
+using namespace std;
+
+class Book {
+	string author, title, publisher;
+	float price;
+	int stock;
+
+public:
+	Book() {
+	}
+	Book(string a, string t, float p, string pub, int s) {
+		author = a;
+		title = t;
+		price = p;
+		publisher = pub;
+		stock = s;
+	} void display() {
+		cout << "\nTitle: " << title
+		     << "\nAuthor: " << author
+		     << "\nPrice: " << price
+		     << "\nPublisher: " << publisher;
+
+	}
+
+	bool matches(string t, string a) {
+		return (title == t && author == a);
+	}
+
+	void buy(int copies) {
+		if (copies <= stock) {
+			cout << "\nTotal Cost: " << price * copies;
+			stock = stock - copies;
+		} else {
+			cout << "\nRequired copies not in stock";
+		}
+	}
+};
+
+int main() {
+	int n;
+	cout << "Enter number of books: ";
+	cin >> n;
+
+	Book books[n];
+
+	for (int i = 0; i <= n-1; i++) {
+		string author, title, publisher;
+		float price;
+		int stock;
+
+		cout << "\nEnter Author: ";
+		cin >> author;
+		cout << "Enter Title: ";
+		cin >> title;
+		cout << "Enter Price: ";
+		cin >> price;
+		cout << "Enter Publisher: ";
+		cin >> publisher;
+		cout << "Enter Stock: ";
+		cin >> stock;
+
+		books[i] = Book(author, title, price, publisher, stock);
+	}
+
+	char choice;
+	do {
+		string searchTitle, searchAuthor;
+		cout << "\nEnter title to search: ";
+		cin >> searchTitle;
+		cout << "Enter author to search: ";
+		cin >> searchAuthor;
+
+		bool found = false;
+		for (int i = 0; i < n; i++) {
+			if (books[i].matches(searchTitle, searchAuthor)) {
+				cout << "\nBook Found";
+				books[i].display();
+
+				int copies;
+				cout << "\nEnter number of copies: ";
+				cin >> copies;
+				books[i].buy(copies);
+				found = true;
+				break;
+			}
+		}
+
+		if (found == false) {
+			cout << "\nBook Not Available!";
+		}
+
+		cout << "\n search another book? (y/n): ";
+		cin >> choice;
+
+	} while (choice == 'y' || choice == 'Y');
+
+	cout << "\n using bookstore system";
+	return 0;
+}
